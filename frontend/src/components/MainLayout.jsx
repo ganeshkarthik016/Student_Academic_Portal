@@ -15,6 +15,10 @@ export default function MainLayout() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  // NEW: State to hold your formatted full name
+  const [studentFullName, setStudentFullName] = useState('');
+  const cleanRollNumber = currentUser ? currentUser.split('@')[0].toUpperCase() : '';
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -25,12 +29,26 @@ export default function MainLayout() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // NEW: Fetch your actual name from the database for the dropdown
+  useEffect(() => {
+    if (cleanRollNumber) {
+      fetch(`http://localhost:5000/api/student/${cleanRollNumber}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.first_name) {
+            // Formats it exactly like your screenshot: BHANUPANTHULA_GANESH...
+            setStudentFullName(`${data.last_name || ''}_${data.first_name || ''}`.toUpperCase());
+          }
+        })
+        .catch(err => console.error("Could not fetch name for sidebar", err));
+    }
+  }, [cleanRollNumber]);
+
   const handleLogout = async () => {
     await signOut(auth);
     logout();
   };
 
-  // Custom NavLink component for exact FUSION styling
   const SidebarLink = ({ to, icon: Icon, label }) => (
     <NavLink 
       to={to}
@@ -64,8 +82,7 @@ export default function MainLayout() {
         <nav className="flex-1 py-4 overflow-y-auto">
           <div className="flex flex-col gap-1">
             <SidebarLink to="/dashboard" icon={Home} label="Home" />
-            <SidebarLink to="/dashboard/academics" icon={BookOpen} label="Academics" />
-            <SidebarLink to="/dashboard/curriculum" icon={Calendar} label="Program & Curriculum" />
+            <SidebarLink to="/dashboard/enrollment" icon={BookOpen} label="Course Enrollment" />
             <SidebarLink to="/dashboard/examination" icon={FileText} label="Examination" />
           </div>
 
@@ -116,21 +133,24 @@ export default function MainLayout() {
                 <div className="absolute right-0 mt-2 w-[320px] bg-white rounded-lg shadow-lg border border-slate-100 p-4 flex gap-4">
                   <img src="/profile.jpg" className="w-16 h-16 rounded-full object-cover shrink-0" />
                   <div className="flex flex-col justify-center min-w-0">
-                    <div className="font-bold text-slate-900 text-sm truncate uppercase mb-2">
-                      {currentUser || "STUDENT"}
+                    
+                    {/* 👇 THIS IS THE TRUNCATED NAME FIX 👇 */}
+                    <div className="font-black text-slate-900 text-[15px] truncate max-w-[180px] uppercase mb-3" title={studentFullName || currentUser}>
+                      {studentFullName || currentUser || "STUDENT"}
                     </div>
+                    
                     <div className="flex gap-2">
                       <button 
                         onClick={() => { navigate('/dashboard/profile'); setIsProfileOpen(false); }}
-                        className="flex-1 py-1 text-blue-600 bg-blue-50 rounded text-xs font-medium hover:bg-blue-100 flex justify-center items-center gap-1"
+                        className="flex-1 py-1.5 text-blue-600 bg-blue-50 rounded border border-blue-100 text-xs font-bold hover:bg-blue-100 flex justify-center items-center gap-1"
                       >
-                        Profile <User size={12} />
+                        Profile <User size={14} />
                       </button>
                       <button 
                         onClick={handleLogout}
-                        className="flex-1 py-1 text-red-600 bg-red-50 rounded text-xs font-medium hover:bg-red-100 flex justify-center items-center gap-1"
+                        className="flex-1 py-1.5 text-red-600 bg-red-50 rounded border border-red-100 text-xs font-bold hover:bg-red-100 flex justify-center items-center gap-1"
                       >
-                        Log out <LogOut size={12} />
+                        Log out <LogOut size={14} />
                       </button>
                     </div>
                   </div>
@@ -140,7 +160,7 @@ export default function MainLayout() {
           </div>
         </header>
 
-        {/* DYNAMIC PAGE CONTENT (Where Home, Profile, or Results will render) */}
+        {/* DYNAMIC PAGE CONTENT */}
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
