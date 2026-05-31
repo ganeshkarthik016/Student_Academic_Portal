@@ -111,22 +111,8 @@ npm run dev
 * Backend: Render
 * Database: Railway
 
-## Screenshots
 
-Add screenshots of:
 
-* Login Page
-* Student Dashboard
-* Enrollment Page
-* Results Page
-
-## Future Improvements
-
-* Admin Dashboard
-* Faculty Portal
-* Attendance Management
-* Notifications System
-* Analytics Dashboard
 
 ## License
 
