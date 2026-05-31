@@ -193,7 +193,7 @@ app.get('/api/all-electives/:rollNumber', (req, res) => {
         res.json(results);
     });
 });
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Backend Server is running on http://localhost:${PORT}`);
 });
