@@ -587,14 +587,7 @@ CREATE TABLE `enrollments` (
 -- Dumping data for table `enrollments`
 --
 
-INSERT INTO `enrollments` (`enrollment_id`, `roll_number`, `course_code`, `semester_execution`, `grade`) VALUES
-(1, '24BCS117', 'CS2006', '4', 'O'),
-(2, '24BCS117', 'CS2007', '4', 'B'),
-(3, '24BCS117', 'CS2008', '4', 'B+'),
-(4, '24BCS117', 'CS2009', '4', 'B+'),
-(5, '24BCS117', 'IT2C02', '4', 'D+'),
-(6, '24BCS117', 'PR2002', '4', 'B+'),
-(7, '24BCS117', 'OE2S09', '4', 'B');
+
 
 -- --------------------------------------------------------
 
