@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
+import { API_URL } from '../config';
 
 export default function MainLayout() {
   const { currentUser, logout } = useAuth();
@@ -32,7 +33,7 @@ export default function MainLayout() {
   // NEW: Fetch your actual name from the database for the dropdown
   useEffect(() => {
     if (cleanRollNumber) {
-      fetch(`http://localhost:5000/api/student/${cleanRollNumber}`)
+      fetch(`${API_URL}/api/student/${cleanRollNumber}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.first_name) {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config';
 
 export default function ResultPage() {
   const { currentUser } = useAuth();
@@ -17,7 +18,7 @@ export default function ResultPage() {
     if (!cleanRollNumber) return;
     setIsLoading(true);
     
-    fetch(`http://localhost:5000/api/results/${cleanRollNumber}`)
+    fetch(`${API_URL}/api/results/${cleanRollNumber}`)
       .then(res => res.json())
       .then(data => {
         setStudentInfo(data.student);

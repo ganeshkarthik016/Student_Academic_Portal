@@ -3,6 +3,7 @@ import { auth } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '../context/AuthContext';
 import { Eye, EyeOff } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function Login() {
   const [email, setEmail] = useState('');

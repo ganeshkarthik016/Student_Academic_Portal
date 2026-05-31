@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config';
 
 export default function Onboarding() {
   const { currentUser } = useAuth();
@@ -17,7 +18,7 @@ export default function Onboarding() {
     setIsSubmitting(true);
     
     try {
-      const res = await fetch('http://localhost:5000/api/onboard', {
+      const res = await fetch(`${API_URL}/api/onboard`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

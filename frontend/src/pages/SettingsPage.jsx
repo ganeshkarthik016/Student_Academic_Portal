@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Save, Settings, Database, User } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function SettingsPage() {
   const { currentUser } = useAuth();
@@ -17,7 +18,7 @@ export default function SettingsPage() {
   });
 
   const fetchGradesAndProfile = () => {
-    fetch(`http://localhost:5000/api/results/${cleanRollNumber}`)
+    fetch(`${API_URL}/api/results/${cleanRollNumber}`)
       .then(res => res.json())
       .then(data => {
         setAllCourses(data.allCourses || []);
@@ -29,7 +30,7 @@ export default function SettingsPage() {
           setActiveTab(data.student.current_semester || 1);
           
           // Fetch the full student details to get DOB and Phone
-          fetch(`http://localhost:5000/api/student/${cleanRollNumber}`)
+          fetch(`${API_URL}/api/student/${cleanRollNumber}`)
             .then(res => res.json())
             .then(studentData => {
                 setStudentProfile({
@@ -50,7 +51,7 @@ export default function SettingsPage() {
   const handleSaveAll = async () => {
     setIsSaving(true);
     // This now sends DOB and Contact to the backend!
-    await fetch('http://localhost:5000/api/update-student', {
+    await fetch(`${API_URL}/api/update-student`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rollNumber: cleanRollNumber, ...studentProfile })
@@ -58,7 +59,7 @@ export default function SettingsPage() {
     
     for (const course of allCourses) {
       if (editGrades[course.code] !== course.grade) {
-        await fetch('http://localhost:5000/api/save-grade', {
+        await fetch(`${API_URL}/api/save-grade`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

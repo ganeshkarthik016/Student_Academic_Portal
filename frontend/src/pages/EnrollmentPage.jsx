@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { BookOpen, CheckCircle, Search, Lock } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function EnrollmentPage() {
   const { currentUser } = useAuth();
@@ -25,7 +26,7 @@ export default function EnrollmentPage() {
     if (!cleanRollNumber) return;
     
     // Fetch History to know what to hide
-    fetch(`http://localhost:5000/api/results/${cleanRollNumber}`)
+    fetch(`${API_URL}/api/results/${cleanRollNumber}`)
       .then(res => res.json())
       .then(data => {
         if (data.allCourses) {
@@ -34,7 +35,7 @@ export default function EnrollmentPage() {
       });
 
     // Fetch Global Elective Pool
-    fetch(`http://localhost:5000/api/all-electives/${cleanRollNumber}`)
+    fetch(`${API_URL}/api/all-electives/${cleanRollNumber}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setGlobalElectives(data);
@@ -50,12 +51,12 @@ export default function EnrollmentPage() {
     setSearchTerm('');
 
     // Check Lock
-    fetch(`http://localhost:5000/api/check-enrollment/${cleanRollNumber}/${activeTab}`)
+    fetch(`${API_URL}/api/check-enrollment/${cleanRollNumber}/${activeTab}`)
       .then(res => res.json())
       .then(data => setIsLocked(data.isEnrolled));
 
     // Fetch Core Courses for this Tab
-    fetch(`http://localhost:5000/api/enrollment-options/${cleanRollNumber}/${activeTab}`)
+    fetch(`${API_URL}/api/enrollment-options/${cleanRollNumber}/${activeTab}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -92,7 +93,7 @@ export default function EnrollmentPage() {
     setIsSubmitting(true);
     const finalCourseList = [...selectedCore, ...selectedElectives];
 
-    await fetch('http://localhost:5000/api/submit-enrollment', {
+    await fetch(`${API_URL}/api/submit-enrollment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

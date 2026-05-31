@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from 'react';
+import { API_URL } from '../config';
 
 // 1. Create the empty brain
 const AuthContext = createContext();

@@ -9,6 +9,7 @@ import ResultPage from './pages/ResultPage';
 import SettingsPage from './pages/SettingsPage';
 import Onboarding from './pages/Onboarding';
 import EnrollmentPage from './pages/EnrollmentPage'; // <-- NEW IMPORT
+import { API_URL } from './config';
 
 function AppRoutes() {
   const { currentUser } = useAuth();
@@ -24,7 +25,7 @@ function AppRoutes() {
 
     const cleanRollNumber = currentUser.split('@')[0].toUpperCase();
 
-    fetch(`http://localhost:5000/api/student/${cleanRollNumber}`)
+    fetch(`${API_URL}/api/student/${cleanRollNumber}`)
       .then(res => {
         if (res.status === 404) setNeedsOnboarding(true);
         else setNeedsOnboarding(false);

@@ -1,5 +1,6 @@
 // src/pages/HomePage.jsx
 import { ChevronRight, Search } from 'lucide-react';
+import { API_URL } from '../config';
 
 export default function HomePage() {
   return (

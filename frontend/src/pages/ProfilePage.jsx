@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 export default function ProfilePage() {
   const { currentUser } = useAuth();
@@ -23,7 +24,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!cleanRollNumber) return;
-    fetch(`http://localhost:5000/api/student/${cleanRollNumber}`)
+    fetch(`${API_URL}/api/student/${cleanRollNumber}`)
       .then(res => res.json())
       .then(data => {
         if (data) {
