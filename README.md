@@ -111,7 +111,22 @@ npm run dev
 * Backend: Render
 * Database: Railway
 
+## Screenshots
 
+### Login Page
+![Login](screenshots/login.png)
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Profile
+![Profile](screenshots/profile.png)
+
+### Enrollment
+![Enrollment](screenshots/enrollment.png)
+
+### Results
+![Results](screenshots/results.png)
 
 
 ## License
