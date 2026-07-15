@@ -1,5 +1,5 @@
-import connectDB from '../db/index.js';
-import { asyncHandler } from '../utils/asyncHandler.js';
+import connectDB from '../src/db/index.js';
+import { asyncHandler } from '../src/utils/asyncHandler.js';
 
 // ================= HELPER FUNCTION =================
 function extractBranch(rollNumber) {
