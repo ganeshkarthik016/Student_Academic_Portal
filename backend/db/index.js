@@ -1,0 +1,24 @@
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+// We use 'mysql2/promise' so we can use async/await instead of messy callbacks!
+const connectDB = async () => {
+    try {
+        const connection = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
+            port: process.env.DB_PORT
+        });
+        console.log(`\n✅ MySQL Connected successfully!`);
+        return connection;
+    } catch (error) {
+        console.error("❌ MySQL connection FAILED: ", error);
+        process.exit(1);
+    }
+};
+
+export default connectDB;
